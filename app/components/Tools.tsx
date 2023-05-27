@@ -6,6 +6,7 @@ import Code from "./Code"
 
 const Tools = () => {
   const [text, setText] = useState<string>("")
+  const [result, setResult] = useState<string>("")
   const [transToggle, setTransToggle] = useState<boolean>(false)
   const [stemToggle, setStemToggle] = useState<boolean>(true)
   const [lexToggle, setLexToggle] = useState<boolean>(false)
@@ -20,6 +21,19 @@ const Tools = () => {
 
   const handleChange = (event: any) => {
     setText(event.target.value)
+  }
+
+  const processText = async () => {
+    let type = lexToggle
+      ? "lex"
+      : transToggle
+      ? "trans"
+      : stpToggle
+      ? "stp"
+      : "stem"
+    let result = await fetch(`/api/felig?text=${text}&type=${type}`)
+    let jsonData = await result.json()
+    setResult(jsonData.result)
   }
 
   return (
@@ -42,7 +56,9 @@ const Tools = () => {
                 setTransToggle(true)
               }}
               type="button"
-              className="px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+              className={`px-4 py-2 text-sm font-medium text-gray-900 border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 ${
+                transToggle ? "bg-gray-700" : "bg-transparent"
+              }`}
             >
               Transliterator
             </button>
@@ -52,7 +68,9 @@ const Tools = () => {
                 setStemToggle(true)
               }}
               type="button"
-              className="px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border-t border-b border-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+              className={`px-4 py-2 text-sm font-medium text-gray-900 border-t border-b border-gray-900 hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 ${
+                stemToggle ? "bg-gray-700" : "bg-transparent"
+              }`}
             >
               Stemmer
             </button>
@@ -62,7 +80,9 @@ const Tools = () => {
                 setLexToggle(true)
               }}
               type="button"
-              className="px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900  hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+              className={`px-4 py-2 text-sm font-medium text-gray-900 border border-gray-900  hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 ${
+                lexToggle ? "bg-gray-700" : "bg-transparent"
+              }`}
             >
               Lexical Analyzer
             </button>
@@ -72,7 +92,9 @@ const Tools = () => {
                 setStpToggle(true)
               }}
               type="button"
-              className="px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border-t border-b border-r border-gray-900 rounded-r-md hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+              className={`px-4 py-2 text-sm font-medium text-gray-900 border-t border-b border-r border-gray-900 rounded-r-md hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 ${
+                stpToggle ? "bg-gray-700" : "bg-transparent"
+              }`}
             >
               Stopword Remover
             </button>
@@ -90,9 +112,15 @@ const Tools = () => {
                 className="block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               />
             </div>
-            <button className="w-fit justify-center flex items-center whitespace-nowrap transition duration-150 ease-in-out font-medium rounded px-10 py-1.5  text-zinc-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white group">
-              Submit{" "}
-            </button>
+            <div className="flex justify-between">
+              <button
+                onClick={processText}
+                className="w-fit justify-center flex items-center whitespace-nowrap transition duration-150 ease-in-out font-medium rounded px-10 py-1.5  text-zinc-900 bg-gradient-to-r from-white/80 via-white to-white/80 hover:bg-white group"
+              >
+                Submit{" "}
+              </button>
+              <p className="text-lg text-slate-300">Result: {result}</p>
+            </div>
           </div>
         </div>
 

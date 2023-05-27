@@ -9,7 +9,7 @@ const GITHUB_URL = "https://github.com/liulalemx/felig-toolkit"
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between px-24">
+    <main className="flex min-h-screen flex-col items-center justify-between px-24 scroll-smooth">
       {/* Navbar */}
       <nav className="flex px-2 md:px-16 h-[80px] items-center justify-between md:h-[100px] w-full">
         <div className="flex items-center gap-3">
@@ -67,7 +67,7 @@ export default function Home() {
                 <div className="relative inline-flex before:absolute before:inset-0 ">
                   <Link
                     className="px-3 py-1 text-sm font-medium inline-flex items-center justify-center border border-transparent rounded-full  text-zinc-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.primary.900),_theme(colors.primary.900))_padding-box,_conic-gradient(theme(colors.primary.400),_theme(colors.primary.700)_25%,_theme(colors.primary.700)_75%,_theme(colors.primary.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-zinc-800/30 before:rounded-full before:pointer-events-none"
-                    href="https://github.com/chronark/highstorm"
+                    href="https://www.npmjs.com/package/felig-toolkit"
                   >
                     <span className="relative inline-flex items-center">
                       Felig Toolkit now supports typescript{" "}
